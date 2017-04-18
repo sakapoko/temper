@@ -22,39 +22,26 @@
  * 
  */
 
-#include <usb.h>
+#ifndef PCSENSOR_H
+#define PCSENSOR_H
+
+#include <libusb-1.0/libusb.h>
 #include <stdio.h>
 
 #include <string.h>
 #include <errno.h>
 #include <float.h>
+#include <unistd.h>
 
-/*
-static int device_type(usb_dev_handle *lvr_winusb);
+typedef struct {
+  libusb_context *context;
+  struct libusb_device_handle *device;
+  unsigned char buf[64];
+  int type;
+} sensor_t;
 
-static int usb_detach(usb_dev_handle *lvr_winusb, int iInterface);
+extern int pcsensor_open(sensor_t *sensor);
+extern void pcsensor_close(sensor_t *sensor);
+extern float pcsensor_get_temperature(sensor_t *sensor);
 
-static usb_dev_handle *find_lvr_winusb();
-
-static usb_dev_handle* setup_libusb_access();
-
-static int ini_control_transfer(usb_dev_handle *dev);
-
-static int control_transfer(usb_dev_handle *dev, const char *pquestion);
-
-static int interrupt_read(usb_dev_handle *dev);
-
-static int interrupt_read_temperatura(usb_dev_handle *dev, float *tempC);
-
-static int get_data(usb_dev_handle *dev, char *buf, int len);
-
-static int get_temperature(usb_dev_handle *dev, float *tempC);
-
-*/
-
-usb_dev_handle* pcsensor_open();
-
-void pcsensor_close(usb_dev_handle* lvr_winusb);
-
-float pcsensor_get_temperature(usb_dev_handle* lvr_winusb);
-
+#endif /* PCSENSOR_H */
